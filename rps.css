@@ -1,0 +1,45 @@
+body {
+    background-color: #ccc;
+    font-family: 'Roboto Slab', sans-serif;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    text-decoration: underline;
+    font-style: italic;
+}
+
+.iconos {
+    display: flex;
+    justify-content: center;
+}
+
+.iconos h2 {
+    font-size: 9em;
+    margin: 60px 60px;
+    cursor: pointer;
+    transition: 500ms;
+}
+
+.iconos h2:hover {
+    transform: scale(1.2);
+}
+
+.score {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.score-container {
+    width: 600px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.score-container h2 {
+    font-size: 2em;
+    padding: 10px 20px
+}
