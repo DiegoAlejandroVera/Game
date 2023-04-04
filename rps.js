@@ -1,53 +1,120 @@
-let playerScore = 0;
-let computerScore = 0;
+let userScore = 0;
+let compScore = 0;
 
-const computerPlay = () => {
-  const arrChoices = ["piedra", "papel", "tijera"];
-  const randomNum = Math.floor(Math.random() * arrChoices.length);
-  return arrChoices[randomNum];
+const rockButton = document.querySelector("#piedra");
+const paperButton = document.querySelector("#papel");
+const scissorButton = document.querySelector("#tijera");
+
+const compSelection = () => {
+  const arrChoice = ["piedra", "papel", "tijera"];
+  const choice = arrChoice[Math.floor(Math.random() * arrChoice.length)];
+
+  return choice;
 };
 
-const playRound = (playerSelection, computerSelection) => {
-  if (playerSelection === computerSelection) {
-    return "Empetaste, vuelve a intentarlo";
-  } else if (playerSelection === "piedra" && computerSelection === "papel") {
-    computerScore++;
-    return "Perdiste!! Papel cubre a piedra";
-  } else if (playerSelection === "piedra" && computerSelection === "tijera") {
-    playerScore++;
-    return "Ganaste!! Piedra rompe la tijera";
-  } else if (playerSelection === "papel" && computerSelection === "tijera") {
-    computerScore++;
-    return "Perdiste!! Tijera corta el papel";
-  } else if (playerSelection === "papel" && computerSelection === "piedra") {
-    playerScore++;
-    return "Ganaste!! Papel cubre la piedra";
-  } else if (playerSelection === "tijera" && computerSelection === "papel") {
-    playerScore++;
-    return "Ganaste!! Tijera corta papel";
-  } else if (playerSelection === "tijera" && computerSelection === "piedra") {
-    computerScore++;
-    return "Perdiste!! Piedra rompe la tijera";
+function playRound(userPlay, computerPlay) {
+  console.log("1", userPlay, "2", computerPlay);
+  if (userPlay === computerPlay) {
+    return "Empate";
+  } else if (userPlay === "piedra" && computerPlay === "tijera") {
+    userScore++;
+    return "ganaste";
+  } else if (userPlay === "piedra" && computerPlay === "papel") {
+    compScore++;
+    return "Perdiste";
+  } else if (userPlay === "papel" && computerPlay === "piedra") {
+    userScore++;
+    return "ganaste";
+  } else if (userPlay === "papel" && computerPlay === "tijera") {
+    compScore++;
+    return "Perdiste";
+  } else if (userPlay === "tijera" && computerPlay === "papel") {
+    userScore++;
+    return "ganaste";
+  } else if (userPlay === "tijera" && computerPlay === "piedra") {
+    compScore++;
+    return "Perdiste";
   }
-};
+}
 
-const game = () => {
-  for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt(
-      "Elija:",
-      "Piedra, Papel o Tijera"
-    ).toLowerCase();
-    const computerSelection = computerPlay();
-    playRound(playerSelection, computerSelection);
+function game() {
+  let plays = 0;
+  paperButton.addEventListener("click", () => {
+    if (plays < 5) {
+      const computerPlay = compSelection();
+      const userPlay = "Papel".toLowerCase();
+      console.log(playRound(userPlay, computerPlay));
+      print(userPlay, computerPlay);
+      plays++;
+    }
+    if (plays === 5) {
+      resultado();
+    }
+  });
+
+  rockButton.addEventListener("click", () => {
+    if (plays < 5) {
+      const computerPlay = compSelection();
+      const userPlay = "piedra";
+      console.log(playRound(userPlay, computerPlay));
+      print(userPlay, computerPlay);
+      plays++;
+    }
+    if (plays === 5) {
+      resultado();
+    }
+  });
+
+  scissorButton.addEventListener("click", () => {
+    if (plays < 5) {
+      const computerPlay = compSelection();
+      const userPlay = "Tijera".toLowerCase();
+      console.log(playRound(userPlay, computerPlay));
+      print(userPlay, computerPlay);
+      plays++;
+    }
+    if (plays === 5) {
+      resultado();
+    }
+  });
+}
+
+game();
+
+function print(userPlay, computerPlay) {
+  const userOutcome = document.querySelector("#userOutcome");
+  const compOutcome = document.querySelector("#compOutcome");
+  const p = document.createElement("p");
+  const p2 = document.createElement("p");
+  p.textContent = userPlay;
+  p.classList.add("result");
+  p2.textContent = computerPlay;
+  p2.classList.add("result");
+  userOutcome.append(p);
+  compOutcome.append(p2);
+}
+
+function resultado() {
+  const result = document.querySelector("#results");
+  const foot = document.querySelector(".foot");
+
+  if (userScore < compScore) {
+    const finalResult = document.createElement("p");
+    finalResult.innerHTML = "Perdiste!!! <span> 😭 </span>";
+    finalResult.classList.add("response");
+    result.append(finalResult);
+    foot.style.display = "block";
+  } else if (userScore > compScore) {
+    const finalResult = document.createElement("p");
+    finalResult.innerHTML = "Ganaste!!! <span> 🤩 </span>";
+    finalResult.classList.add("response");
+    result.append(finalResult);
+    foot.style.display = "block";
+  } else if (userScore === compScore) {
+    const finalResult = document.createElement("p");
+    finalResult.innerHTML = "Empataste!!! <span> 🥸 </span>";
+    finalResult.classList.add("response");
+    result.append(finalResult);
+    foot.style.display = "block";
   }
-
-  if (computerScore > playerScore) {
-    return "Perdiste perro!! Vuelve a jugar";
-  } else if (playerScore > computerScore) {
-    return "Ganaste perro!!! Vamos por unas chelas";
-  } else {
-    return "Empateeee!! Ajustaste bien perrito";
-  }
-};
-
-console.log(game());
+}
